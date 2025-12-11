@@ -1,16 +1,7 @@
-// Copyright 2021-2025 FRC 6328
-// http://github.com/Mechanical-Advantage
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// version 3 as published by the Free Software Foundation or
-// available in the root directory of this project.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-
+// Copyright (c) 2025 FRC 10219
+// https://github.com/Team10219
+// Probably code stolen from 6328
+ 
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -41,10 +32,9 @@ public class RobotContainer {
   private Vision vision;
 
   private SwerveDriveSimulation driveSimulation = null;
-  private Controls controls = Controls.getInstance();
+  private Controls controls;
   private AutoContainer autoContainer;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     switch (Constants.currentMode) {
       case REAL:
@@ -62,6 +52,7 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision("camera0", VisionConstants.robotToCamera0),
                 new VisionIOPhotonVision("camera1", VisionConstants.robotToCamera1));
+        controls = Controls.getInstance();
         autoContainer = AutoContainer.getInstance(drive, vision);
         break;
 
@@ -89,6 +80,7 @@ public class RobotContainer {
                     "camera1",
                     VisionConstants.robotToCamera1,
                     driveSimulation::getSimulatedDriveTrainPose));
+        controls = Controls.getInstance();
         autoContainer = AutoContainer.getInstance(drive, vision);
         break;
 
@@ -103,6 +95,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 (robotPose) -> {});
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        controls = Controls.getInstance();
         autoContainer = AutoContainer.getInstance(drive, vision);
         break;
     }
